@@ -1,0 +1,10 @@
+﻿cmake_gcc/
+build/
+*.rps
+autogen/
+.vscode/
+*.o
+*.elf
+*.map
+*.bin
+.git/
