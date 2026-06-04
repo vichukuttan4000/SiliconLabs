@@ -200,8 +200,13 @@ Refer to the LICENSE file located in the repository root directory for complete 
 
 ## 9. Maintainers / Contacts
 
-| Name     | Role              | Contact Information                                       | Github Profile                     |
-| -------- | ----------------- | --------------------------------------------------------- | ---------------------------------- |
+| Name | Role | Contact Information | Github Profile |
+|--------|--------|--------|--------|
+| Pravinkumar A K | Student Developer | [akpravinkumar07@gmail.com](mailto:akpravinkumar07@gmail.com) | https://github.com/AKPravinkumar |
+| Rahul J | Student Developer | [rahuljawahar22@gmail.com](mailto:rahuljawahar22@gmail.com) | https://github.com/rahuljawahar |
+| Sanjay Narayanan V | Student Developer | [sanjaymail322006@gmail.com](mailto:sanjaymail322006@gmail.com) | https://github.com/iamsanjaynarayanan |
+| Syed Peer Mohammed N | Student Developer | [syedmuhamed2706@gmail.com](mailto:syedmuhamed2706@gmail.com) | https://github.com/syedmuhamed2706-web |
+| Vignesh M | Student Developer | [vickeymailysamy534@gmail.com](mailto:vickeymailysamy534@gmail.com) | https://github.com/vignesh534 |
 | Vishal P | Student Developer | [ppsvishal4000@gmail.com](mailto:ppsvishal4000@gmail.com) | https://github.com/vichukuttan4000 |
 
 ---
