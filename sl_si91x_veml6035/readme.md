@@ -1,105 +1,181 @@
-# SL VEML6035
+# Ambient Light Monitoring System Using Silicon Labs SiWG917 and VEML6035
 
-## Table of Contents
+## Project Overview
 
-- [SL VEML6035](#sl-veml6035)
-  - [Purpose/Scope](#purposescope)
-  - [About Example Code](#about-example-code)
-  - [Prerequisites/Setup Requirements](#prerequisitessetup-requirements)
-    - [Hardware Requirements](#hardware-requirements)
-    - [Software Requirements](#software-requirements)
-    - [Setup Diagram](#setup-diagram)
-  - [Getting Started](#getting-started)
-  - [Application Build Environment](#application-build-environment)
-    - [Pin Configuration](#pin-configuration)
-  - [Test the Application](#test-the-application)
+This project demonstrates ambient light monitoring using the onboard VEML6035 Ambient Light Sensor available on the Silicon Labs SiWG917 Development Kit. The system continuously measures surrounding light intensity and displays the measured lux value through the serial console.
 
-## Purpose/Scope
+The measured light intensity is classified into different brightness levels including Very Dark, Dim, Normal Room Light, and Bright. The project serves as a foundation for future smart lighting, energy-efficient automation, and sensor-based IoT applications.
 
- This application demonstrates the VEML6035 Ambient Light Sensor, which measures the Lux via I2C interface for every 2 seconds. The lux is the unit of illuminance, or luminous flux per unit area.
+The entire implementation runs locally on the SiWG917 platform without requiring external sensors, cloud connectivity, or additional processing units.
 
-## About Example Code
+## Problem Statement
 
-This example demonstrates the measurement of Lux for every 2 seconds. It also shows how to use different APIs present via the I2C interface.
+Many smart environments require continuous monitoring of ambient light conditions to improve energy efficiency, automate lighting systems, and enhance user comfort.
 
-## Prerequisites/Setup Requirements
+Traditional lighting systems operate independently of surrounding conditions, leading to unnecessary power consumption and reduced adaptability.
 
-### Hardware Requirements
+This project aims to implement a real-time ambient light monitoring system capable of measuring and classifying environmental brightness using the onboard VEML6035 sensor integrated with the Silicon Labs SiWG917 platform.
 
-- Windows PC
-- Silicon Labs SiWx917 Dev Kit [BRD2605A](https://www.silabs.com/development-tools/wireless/wi-fi/siwx917-dk2605a-wifi-6-bluetooth-le-soc-dev-kit?tab=overview)
+## Objectives
 
-### Software Requirements
+### Primary Objectives
 
-- Simplicity Studio
-- Serial console Setup
-  - For Serial Console setup instructions, see the [here](https://docs.silabs.com/wiseconnect/latest/wiseconnect-developers-guide-developing-for-silabs-hosts/using-the-simplicity-studio-ide#console-input-and-output).
+* Interface and utilize the onboard VEML6035 Ambient Light Sensor.
+* Measure ambient light intensity in lux.
+* Display real-time sensor readings through the serial console.
+* Classify environmental lighting conditions.
 
-### Setup Diagram
+### Secondary Objectives
 
-![Figure: setupdiagram](resources/readme/setupdiagram.png)
+* Establish a foundation for automatic lighting control.
+* Explore sensor integration on the SiWG917 platform.
+* Demonstrate real-time environmental monitoring.
+* Enable future IoT and smart building applications.
 
-## Getting Started
+## Hardware Used
 
-Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wiseconnect-getting-started/) to:
+* Silicon Labs SiWG917 Development Kit (BRD2605A)
+* Onboard VEML6035 Ambient Light Sensor
+* USB Cable
+* Development PC
 
-- [Install Simplicity Studio](https://docs.silabs.com/wiseconnect/latest/wiseconnect-developers-guide-developing-for-silabs-hosts/using-the-simplicity-studio-ide#install-simplicity-studio)
-- [Install WiSeConnect extension](https://docs.silabs.com/wiseconnect/latest/wiseconnect-developers-guide-developing-for-silabs-hosts/using-the-simplicity-studio-ide#install-the-wiseconnect-3-extension)
-- [Connect your device to the computer](https://docs.silabs.com/wiseconnect/latest/wiseconnect-developers-guide-developing-for-silabs-hosts/using-the-simplicity-studio-ide#connect-siwx91x-to-computer)
-- [Upgrade your connectivity firmware](https://docs.silabs.com/wiseconnect/latest/wiseconnect-developers-guide-developing-for-silabs-hosts/using-the-simplicity-studio-ide#update-siwx91x-connectivity-firmware)
-- [Create a Studio project](https://docs.silabs.com/wiseconnect/latest/wiseconnect-developers-guide-developing-for-silabs-hosts/using-the-simplicity-studio-ide#create-a-project)
+## Software Used
 
-## Application Build Environment
+* Simplicity Studio 6
+* Visual Studio Code
+* Silicon Labs SDK 2025.12.1
+* GCC ARM Toolchain
+* CMake
+* Simplicity Commander
+* Serial Terminal (PuTTY / TeraTerm)
 
-- Configure the following macros in [`veml6035_example.c`](https://github.com/SiliconLabs/wiseconnect/blob/v4.0.0-content-for-docs/examples/si91x_soc/peripheral/sl_si91x_veml6035/veml6035_example.c) file. .Update or  modify the following macros, if required.
+## System Architecture
 
-  - `DELAY_PERIODIC_MS1` : Select the delay for data display. By default, the delay is kept as 2 seconds.
+Ambient Light
+↓
+VEML6035 Sensor
+↓
+I2C Communication
+↓
+SiWG917 Processor
+↓
+Lux Calculation
+↓
+Brightness Classification
+↓
+VCOM Serial Output
 
-    ```C
-    #define DELAY_PERIODIC_MS1 2000    // sleeptimer1 periodic timeout in ms
-    ```
+## Project Workflow
 
-  - `I2C instance`: Select I2C instance for communication through UC from the VEML6035 slcp component. By default I2C2 is selected.
+1. The VEML6035 sensor continuously measures ambient light.
+2. Light intensity data is transferred through the I2C interface.
+3. The SiWG917 processes the sensor data.
+4. Lux values are calculated and updated periodically.
+5. The measured lux value is classified into predefined brightness categories.
+6. Results are displayed through the VCOM serial terminal.
+7. The system repeats the process continuously for real-time monitoring.
 
-    ![Figure: Veml6035 UC](resources/uc_screen/veml6035_uc_screen.png)
+## Brightness Classification
 
-### Pin Configuration
+The measured lux value is categorized into the following levels:
 
-- The sensor is internally connected on SiWG917 Dev kit board on ULP_I2C.
-- However, to use this sensor driver on Custom boards, the following pins are supported based on the instance selected in UC.
+| Lux Range | Classification    |
+| --------- | ----------------- |
+| < 20      | Very Dark         |
+| 20 – 80   | Dim               |
+| 80 – 150  | Normal Room Light |
+| > 150     | Bright            |
 
-**I2C0:**
+These thresholds can be modified depending on application requirements.
 
-| PIN |  ULP GPIO PIN       |        Description          |
-| --- | ------------------- | --------------------------- |
-| SCL |  GPIO_7 [P20]       | Connect to Follower SCL pin |
-| SDA |  GPIO_6 [P19]       | Connect to Follower SDA pin |
+## Sensor Interface
 
-**I2C1:**
+The VEML6035 Ambient Light Sensor communicates with the SiWG917 using the I2C protocol.
 
-| PIN |     GPIO PIN        |      Description            |
-| --- | ------------------- | --------------------------- |
-| SCL |   GPIO_50 [P32]     | Connect to Follower SCL pin |
-| SDA |   GPIO_51 [P34]     | Connect to Follower SDA pin |
+### Features
 
-**ULP_I2C:**
+* High sensitivity ambient light sensing
+* Low power operation
+* Wide dynamic range
+* Accurate lux measurement
+* Real-time monitoring capability
 
-| PIN |        ULP GPIO PIN        |      Description            |
-| --- | -------------------------- | --------------------------- |
-| SCL | ULP_GPIO_7 [EXP_HEADER-15] | Connect to Follower SCL pin |
-| SDA | ULP_GPIO_6 [EXP_HEADER-16] | Connect to Follower SDA pin |
+## Testing and Verification
 
+### Test 1
 
-## Test the Application
+Condition:
+Sensor Fully Covered
 
-See the instructions [Creating a Project](https://docs.silabs.com/wiseconnect/latest/wiseconnect-developers-guide-developing-for-silabs-hosts/using-the-simplicity-studio-ide#create-a-project) section on the **Developing with Boards in SoC Mode** guide to:
+Expected Result:
 
-1. Compile and run the application.
-2. When the application runs, it measures **ALS channel lux** and **white channel lux** every 2 seconds.
-3. After successful program execution, the output to the serial console should look similar to the following image:
+* Lux value decreases significantly
+* Classification changes to Very Dark
 
-   ![Figure: console_output_veml6035](resources/readme/console_output_veml6035.png)
+### Test 2
 
-> **Note:**
->
-> - Interrupt handlers are implemented in the driver layer, and user callbacks are provided for custom code. If you want to write your own interrupt handler instead of using the default one, make the driver interrupt handler a weak handler. Then, copy the necessary code from the driver handler to your custom interrupt handler.
+Condition:
+Normal Indoor Lighting
+
+Expected Result:
+
+* Moderate lux value
+* Classification changes to Dim or Normal Room Light
+
+### Test 3
+
+Condition:
+Direct Flashlight Illumination
+
+Expected Result:
+
+* High lux value
+* Classification changes to Bright
+
+All test cases were successfully verified.
+
+## Results
+
+The project successfully demonstrates:
+
+* Ambient Light Measurement
+* Real-Time Lux Monitoring
+* Sensor Data Acquisition
+* I2C Communication
+* Environmental Brightness Classification
+* Serial Console Visualization
+
+The system accurately responds to changing environmental lighting conditions.
+
+## Advantages
+
+* Low Power Consumption
+* Real-Time Monitoring
+* Simple Hardware Architecture
+* Accurate Light Measurement
+* Easily Expandable
+* Suitable for Smart Automation
+
+## Applications
+
+* Smart Lighting Systems
+* Energy Management Systems
+* Smart Buildings
+* Home Automation
+* Industrial Monitoring
+* Environmental Sensing
+* IoT Sensor Networks
+
+## Future Enhancements
+
+* Automatic Light Control using GPIO and Relay
+* Smart Street Lighting Systems
+* Wi-Fi Based Monitoring Dashboard
+* Cloud Data Logging
+* Mobile Application Integration
+* Multi-Sensor Environmental Monitoring
+* AI-Based Adaptive Lighting Control
+
+## Conclusion
+
+An ambient light monitoring system was successfully implemented using the onboard VEML6035 Ambient Light Sensor available on the Silicon Labs SiWG917 Development Kit. The project continuously measures ambient light intensity, calculates lux values, and classifies environmental brightness levels in real time. The implementation demonstrates effective sensor integration, I2C communication, and environmental monitoring capabilities while providing a scalable foundation for future smart lighting and IoT applications.
