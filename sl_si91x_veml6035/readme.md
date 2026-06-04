@@ -1,181 +1,93 @@
-# Ambient Light Monitoring System Using Silicon Labs SiWG917 and VEML6035
+# Ambient Light Monitoring System using Silicon Labs SiWG917 and VEML6035
 
-## Project Overview
+## 1. Project Overview
 
-This project demonstrates ambient light monitoring using the onboard VEML6035 Ambient Light Sensor available on the Silicon Labs SiWG917 Development Kit. The system continuously measures surrounding light intensity and displays the measured lux value through the serial console.
+This project demonstrates ambient light monitoring using the onboard VEML6035 Ambient Light Sensor available on the Silicon Labs SiWG917 Development Kit. The system continuously measures surrounding light intensity and calculates the corresponding lux value in real time.
 
-The measured light intensity is classified into different brightness levels including Very Dark, Dim, Normal Room Light, and Bright. The project serves as a foundation for future smart lighting, energy-efficient automation, and sensor-based IoT applications.
+The measured lux value is classified into different environmental lighting conditions such as Very Dark, Dim, Normal Room Light, and Bright. The results are displayed through the VCOM serial terminal, enabling real-time monitoring and analysis of ambient lighting conditions.
 
-The entire implementation runs locally on the SiWG917 platform without requiring external sensors, cloud connectivity, or additional processing units.
+The project serves as a foundation for future smart lighting systems, energy-efficient automation, and sensor-based IoT applications.
 
-## Problem Statement
+## 2. Technical Architecture
 
-Many smart environments require continuous monitoring of ambient light conditions to improve energy efficiency, automate lighting systems, and enhance user comfort.
+```mermaid
+graph TD
+    A[Ambient Light] --> B[VEML6035 Ambient Light Sensor]
+    B --> C[I2C Communication]
+    C --> D[SiWG917 Processor]
+    D --> E[Lux Calculation]
+    E --> F[Brightness Classification]
+    F --> G[VCOM Serial Output]
+```
 
-Traditional lighting systems operate independently of surrounding conditions, leading to unnecessary power consumption and reduced adaptability.
+## 3. Technologies Used
 
-This project aims to implement a real-time ambient light monitoring system capable of measuring and classifying environmental brightness using the onboard VEML6035 sensor integrated with the Silicon Labs SiWG917 platform.
+### Wireless Technologies
 
-## Objectives
+* Wi-Fi 6 Capable Platform (SiWG917)
+* Bluetooth Low Energy Capable Platform
 
-### Primary Objectives
+### SDKs and Frameworks
 
-* Interface and utilize the onboard VEML6035 Ambient Light Sensor.
-* Measure ambient light intensity in lux.
-* Display real-time sensor readings through the serial console.
-* Classify environmental lighting conditions.
+* Silicon Labs SDK 2025.12.1
 
-### Secondary Objectives
+### Programming Languages
 
-* Establish a foundation for automatic lighting control.
-* Explore sensor integration on the SiWG917 platform.
-* Demonstrate real-time environmental monitoring.
-* Enable future IoT and smart building applications.
+* C
 
-## Hardware Used
-
-* Silicon Labs SiWG917 Development Kit (BRD2605A)
-* Onboard VEML6035 Ambient Light Sensor
-* USB Cable
-* Development PC
-
-## Software Used
+### Development Tools
 
 * Simplicity Studio 6
 * Visual Studio Code
-* Silicon Labs SDK 2025.12.1
 * GCC ARM Toolchain
 * CMake
 * Simplicity Commander
-* Serial Terminal (PuTTY / TeraTerm)
+* GitHub
+* PuTTY / TeraTerm
 
-## System Architecture
+## 4. Hardware Components
 
-Ambient Light
-↓
-VEML6035 Sensor
-↓
-I2C Communication
-↓
-SiWG917 Processor
-↓
-Lux Calculation
-↓
-Brightness Classification
-↓
-VCOM Serial Output
+### Silicon Labs Hardware
 
-## Project Workflow
+* Silicon Labs SiWG917 Development Kit (BRD2605A)
+* Onboard VEML6035 Ambient Light Sensor
 
-1. The VEML6035 sensor continuously measures ambient light.
-2. Light intensity data is transferred through the I2C interface.
-3. The SiWG917 processes the sensor data.
-4. Lux values are calculated and updated periodically.
-5. The measured lux value is classified into predefined brightness categories.
-6. Results are displayed through the VCOM serial terminal.
-7. The system repeats the process continuously for real-time monitoring.
+### External Hardware
 
-## Brightness Classification
+No external hardware is required for this project.
 
-The measured lux value is categorized into the following levels:
+The implementation utilizes the onboard ambient light sensor integrated into the Silicon Labs SiWG917 Development Kit.
 
-| Lux Range | Classification    |
-| --------- | ----------------- |
-| < 20      | Very Dark         |
-| 20 – 80   | Dim               |
-| 80 – 150  | Normal Room Light |
-| > 150     | Bright            |
+## 7. Software Components / Dependencies
 
-These thresholds can be modified depending on application requirements.
+### Silicon Labs Dependencies
 
-## Sensor Interface
+* Silicon Labs SDK Version: 2025.12.1
+* Simplicity Studio Version: 6
+* Reference Example:
 
-The VEML6035 Ambient Light Sensor communicates with the SiWG917 using the I2C protocol.
+  * `sl_si91x_veml6035`
 
-### Features
+### External Software Dependencies
 
-* High sensitivity ambient light sensing
-* Low power operation
-* Wide dynamic range
-* Accurate lux measurement
-* Real-time monitoring capability
+* GCC ARM Toolchain
+* CMake Build System
+* Visual Studio Code
+* Serial Terminal Software (PuTTY / TeraTerm)
 
-## Testing and Verification
+## 8. Licensing
 
-### Test 1
+This project is released under the MIT License.
 
-Condition:
-Sensor Fully Covered
+Permission is granted to use, modify, distribute, and sublicense this project provided that the original copyright notice and license are included in all copies or substantial portions of the software.
 
-Expected Result:
+Refer to the LICENSE file located in the repository root directory for complete license information.
 
-* Lux value decreases significantly
-* Classification changes to Very Dark
+## 9. Maintainers / Contacts
 
-### Test 2
+| Name     | Role              | Contact Information                                       | Github Profile                     |
+| -------- | ----------------- | --------------------------------------------------------- | ---------------------------------- |
+| Vishal P | Student Developer | [ppsvishal4000@gmail.com](mailto:ppsvishal4000@gmail.com) | https://github.com/vichukuttan4000 |
 
-Condition:
-Normal Indoor Lighting
-
-Expected Result:
-
-* Moderate lux value
-* Classification changes to Dim or Normal Room Light
-
-### Test 3
-
-Condition:
-Direct Flashlight Illumination
-
-Expected Result:
-
-* High lux value
-* Classification changes to Bright
-
-All test cases were successfully verified.
-
-## Results
-
-The project successfully demonstrates:
-
-* Ambient Light Measurement
-* Real-Time Lux Monitoring
-* Sensor Data Acquisition
-* I2C Communication
-* Environmental Brightness Classification
-* Serial Console Visualization
-
-The system accurately responds to changing environmental lighting conditions.
-
-## Advantages
-
-* Low Power Consumption
-* Real-Time Monitoring
-* Simple Hardware Architecture
-* Accurate Light Measurement
-* Easily Expandable
-* Suitable for Smart Automation
-
-## Applications
-
-* Smart Lighting Systems
-* Energy Management Systems
-* Smart Buildings
-* Home Automation
-* Industrial Monitoring
-* Environmental Sensing
-* IoT Sensor Networks
-
-## Future Enhancements
-
-* Automatic Light Control using GPIO and Relay
-* Smart Street Lighting Systems
-* Wi-Fi Based Monitoring Dashboard
-* Cloud Data Logging
-* Mobile Application Integration
-* Multi-Sensor Environmental Monitoring
-* AI-Based Adaptive Lighting Control
-
-## Conclusion
-
-An ambient light monitoring system was successfully implemented using the onboard VEML6035 Ambient Light Sensor available on the Silicon Labs SiWG917 Development Kit. The project continuously measures ambient light intensity, calculates lux values, and classifies environmental brightness levels in real time. The implementation demonstrates effective sensor integration, I2C communication, and environmental monitoring capabilities while providing a scalable foundation for future smart lighting and IoT applications.
+```
+```
