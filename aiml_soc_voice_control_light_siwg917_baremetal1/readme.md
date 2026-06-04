@@ -1,61 +1,153 @@
-# Voice Control Light
+# Voice Controlled Relay Light using Silicon Labs SiWG917
 
-This application uses TensorFlow Lite for Microcontrollers to detect the spoken
-words "on" and "off" from audio data recorded on the microphone. The detected
-keywords are used to control an LED on the board.
+## Project Overview
 
-Audio is sampled continuously from the microphone at a rate of 8kHz. The
-frequency components are then extracted by calculating the FFT on short segments
-of audio as they become available. The result is an array of filterbanks,
-representing the frequency components of the past second of audio. The processed
-audio data is passed into a neural network at an interval of 200 ms. If the
-model detects that either of the keywords "on" or "off" were spoken, LED0 will
-toggle accordingly and the keyword detection result is printed on VCOM.
+This project demonstrates a voice-controlled home automation system developed using the Silicon Labs SiWG917 Development Kit. The system uses the onboard microphone and an embedded machine learning model to recognize predefined voice commands such as "ON" and "OFF". Based on the detected command, the system controls an external appliance through a relay module connected to GPIO_11.
 
-The application is based on TensorFlow's example application, **[micro speech](https://github.com/tensorflow/tensorflow/tree/v2.3.1/tensorflow/lite/micro/examples/micro_speech)**.
+The project showcases the practical implementation of Edge AI for real-time voice recognition and appliance control without requiring cloud connectivity, internet access, or external voice assistants. All processing is performed locally on the device, ensuring low latency, improved privacy, and reliable operation.
 
-## Model
+## Problem Statement
 
-The application uses `keyword_spotting_on_off_v3.tflite`
-as the default model, depending on whether the application is generated for a
-development board featuring an MVP hardware accelerator or not. When an MVP
-hardware accelerator is featured on the board, inference will run at a faster
-speed such that a larger model can be chosen, yielding more accurate keyword
-detections.
+Conventional home automation systems often depend on mobile applications, cloud services, or third-party voice assistants. These approaches increase system complexity, introduce network dependency, and may affect response time.
 
-Details about the model architectures and scripts for generating the models can
-be found in the [Silicon Labs machine learning applications](https://github.com/SiliconLabs/machine_learning_applications/tree/main/) repository, under
-`application/voice/keyword_spotting/model`.
+The objective of this project is to develop a standalone voice-controlled automation system capable of local voice processing and real-time appliance control using embedded machine learning on the Silicon Labs SiWG917 platform.
 
-The application is designed to work with an audio classification model created
-using the Silicon Labs Machine Learning Toolkit
-([MLTK](https://siliconlabs.github.io/mltk)). Use the MLTK to train a new audio
-classifier model and replace the model inside this example with the new audio
-classification model. To replace the audio classification model with a new model
-created using the MLTK simply replace the .tflite file in the config/tflite folder
-of this project with your new. tflite file. After a new .tflite file is added
-to the project Simplicity Studio will automatically use the [flatbuffer converter tool](https://docs.silabs.com/machine-learning/latest/aiml-developers-guide/flatbuffer-conversion)
-to convert the .tflite file into a c file which is added to the project.
+## Objectives
 
-In order for the audio classification to work correctly we need to use the same
-audio feature generator configuration parameters for inference as is used when
-training the model. When using the MLTK to train an audio classification model
-the model parameters will be embedded in the metadata section of the .tflite
-file. When generating a project this metadata is extracted by tools in the Simplicity
-SDK and placed in the file called sl_tflite_micro_model_parameters.h inside the
-autogen folder of the example.
+### Primary Objectives
+- Implement voice command recognition using an embedded AI model.
+- Control external appliances using voice commands.
+- Interface a relay module with the SiWG917 development board.
+- Demonstrate real-time home automation functionality.
 
-This example will automatically use the parameters from the .tflite file in
-order to configure the audio feature generator to correctly extract features
-from input audio data which can be passed to TensorFlow when doing inference.
-See the MLTK documentation for more information about the model parameters:
-<https://siliconlabs.github.io/mltk/docs/model_parameters.html>
+### Secondary Objectives
+- Provide visual status indication using onboard LEDs.
+- Explore embedded AI deployment on edge devices.
+- Establish a foundation for future sensor and wireless integrations.
 
-## References
+## Hardware Used
 
-The example is based on TensorFlow's example called **[micro speech](https://github.com/tensorflow/tflite-micro/tree/main/tensorflow/lite/micro/examples/micro_speech)**
-and audio is processed using the **[audio feature generator](https://docs.silabs.com/machine-learning/latest/aiml-reference-guide/ml-audio-feature-generation)**.
+- Silicon Labs SiWG917 Development Kit (BRD2605A)
+- Relay Module
+- LED
+- 330 Ω Resistor
+- Jumper Wires
+- Power Supply
+- External Appliance / Bulb (for demonstration)
 
-- [Machine Learning (AI/ML) Documentation](https://docs.silabs.com/machine-learning/latest/aiml-developing-with)
-- [MLTK Documentation](https://siliconlabs.github.io/mltk)
-- [TensorFlow Lite Micro](https://www.tensorflow.org/lite/microcontrollers)
+## Software Used
+
+- Simplicity Studio 6
+- Visual Studio Code
+- Silicon Labs SDK 2025.12.1
+- GCC ARM Toolchain
+- CMake
+- Simplicity Commander
+
+## System Architecture
+
+User Voice Command  
+↓  
+Onboard Microphone  
+↓  
+Embedded Machine Learning Model  
+↓  
+Command Recognition Engine  
+↓  
+GPIO_11 Control  
+↓  
+Relay Module  
+↓  
+Appliance / Light Bulb  
+
+## Project Workflow
+
+1. The user speaks a predefined command such as "ON" or "OFF".
+2. The onboard microphone captures the audio signal.
+3. The embedded TensorFlow Lite Micro model processes the audio.
+4. The command recognition engine classifies the spoken command.
+5. GPIO_11 is driven HIGH or LOW based on the detected command.
+6. The relay module is activated or deactivated.
+7. The connected appliance responds accordingly.
+
+## GPIO Configuration
+
+GPIO_11 is used as the output control pin for relay operation.
+
+### ON Command
+
+- GPIO_11 is set HIGH.
+- Relay is energized.
+- Appliance turns ON.
+
+### OFF Command
+
+- GPIO_11 is set LOW.
+- Relay is de-energized.
+- Appliance turns OFF.
+
+## Testing and Verification
+
+Prior to relay integration, GPIO operation was verified using an external LED connected through a current-limiting resistor.
+
+### Test Cases
+
+#### Test 1: Voice ON
+
+Expected Result:
+- LED ON
+- Relay ON
+- Appliance ON
+
+#### Test 2: Voice OFF
+
+Expected Result:
+- LED OFF
+- Relay OFF
+- Appliance OFF
+
+All test cases were successfully verified.
+
+## Results
+
+The project successfully demonstrates:
+
+- Voice Recognition
+- Embedded AI Inference
+- Real-Time Command Processing
+- GPIO-Based Device Control
+- Relay Interface Integration
+- Home Automation Functionality
+
+The system performs all processing locally on the SiWG917 device and does not require internet connectivity.
+
+## Advantages
+
+- Offline Operation
+- Low Latency Response
+- Edge AI Processing
+- Simple Hardware Architecture
+- Expandable Design
+- Low Power Consumption
+
+## Applications
+
+- Smart Homes
+- Voice Controlled Lighting Systems
+- Voice Controlled Appliances
+- Assistive Automation
+- Smart Classrooms
+- Industrial Automation
+
+## Future Enhancements
+
+- Wi-Fi Based Dashboard Control
+- BLE Mobile Application Control
+- Multiple Relay Support
+- Sensor Integration
+- Additional Voice Commands
+- Multi-Appliance Automation
+
+## Conclusion
+
+A voice-controlled home automation system was successfully developed using the Silicon Labs SiWG917 Development Kit. The project demonstrates the deployment of embedded machine learning for real-time voice recognition and appliance control. By processing commands locally and controlling external devices through GPIO and relay interfaces, the system provides an efficient, low-latency, and scalable solution for smart home and IoT applications.
